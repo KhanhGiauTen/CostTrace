@@ -1,0 +1,21 @@
+{
+  "n_nodes": 340,
+  "n_positive": 241,
+  "budget_levels_pct": [
+    1,
+    5,
+    10
+  ],
+  "strategies": [
+    "random",
+    "degree",
+    "betweenness",
+    "gnn"
+  ],
+  "random_repeats": 100,
+  "best_strategy_k1_by_transmission_coverage": {
+    "strategy": "degree",
+    "transmission_coverage": 2.4
+  },
+  "gnn_test_auc": 0.7669
+}

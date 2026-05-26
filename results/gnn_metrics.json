@@ -1,0 +1,42 @@
+{
+  "model": "WeightedGraphSAGEClassifier",
+  "implementation": "pure_pytorch_weighted_mean_aggregation",
+  "seed": 42,
+  "epochs": 500,
+  "best_epoch": 150,
+  "threshold": 0.24,
+  "feature_names": [
+    "degree_centrality_norm",
+    "weighted_degree_sec_norm",
+    "betweenness_centrality_norm",
+    "closeness_centrality_norm",
+    "sleep_room_enc",
+    "cared_by_enc",
+    "age_enc_scaled",
+    "sex_enc",
+    "sus_enc",
+    "site_enc",
+    "is_index"
+  ],
+  "train": {
+    "auc": 0.9914,
+    "ap": 0.9966,
+    "f1": 0.9619,
+    "precision": 0.948,
+    "recall": 0.9762
+  },
+  "validation": {
+    "auc": 0.8036,
+    "ap": 0.9162,
+    "f1": 0.8732,
+    "precision": 0.8857,
+    "recall": 0.8611
+  },
+  "test": {
+    "auc": 0.7669,
+    "ap": 0.8995,
+    "f1": 0.8158,
+    "precision": 0.7949,
+    "recall": 0.8378
+  }
+}
