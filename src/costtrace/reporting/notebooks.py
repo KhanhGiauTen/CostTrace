@@ -416,7 +416,7 @@ NOTEBOOKS = {
                 node: sum(float(attrs.get("total_duration_sec", 0.0)) for _, _, attrs in SG.edges(node, data=True))
                 for node in SG.nodes()
             }
-            pos = nx.spring_layout(SG, seed=42, weight="total_duration_sec")
+            pos = nx.circular_layout(SG)
             node_sizes = [360 + 35 * wdeg[node] / max(wdeg.values()) for node in SG.nodes()]
             node_colors = ["#e76f51" if SG.nodes[node].get("index") == "Index" else "#457b9d" for node in SG.nodes()]
             edge_widths = [0.8 + 3.2 * np.log1p(attrs.get("total_duration_sec", 1.0)) / np.log1p(max(edges["weight"])) for _, _, attrs in SG.edges(data=True)]
@@ -810,11 +810,9 @@ def execute_code_cell(source: str, namespace: dict, notebook_stem: str, cell_ind
         suffix_index = min(fig_position - 1, len(EXTRA_FIGURE_SUFFIXES) - 1)
         image_name = f"{notebook_stem}_{figure_slug}{EXTRA_FIGURE_SUFFIXES[suffix_index]}.png"
         image_path = FIG_DIR / image_name
-        fig.savefig(image_path, dpi=160, bbox_inches="tight")
+        fig.savefig(image_path, dpi=160)
 
-        buffer = io.BytesIO()
-        fig.savefig(buffer, format="png", dpi=160, bbox_inches="tight")
-        encoded = base64.b64encode(buffer.getvalue()).decode("ascii")
+        encoded = base64.b64encode(image_path.read_bytes()).decode("ascii")
         outputs.append(
             {
                 "output_type": "display_data",
