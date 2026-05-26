@@ -2,7 +2,7 @@
   "method": "louvain",
   "weight": "total_duration_sec",
   "n_communities": 88,
-  "modularity": 0.9695713723405355,
+  "modularity": 0.9695713723405357,
   "hh_agreement_pct": 100.0,
   "community_sizes": [
     8,
