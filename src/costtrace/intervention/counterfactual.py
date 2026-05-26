@@ -12,7 +12,7 @@ sys.stdout.reconfigure(encoding="utf-8")
 BUDGET_LEVELS = [1, 5, 10]
 STRATEGIES = ["random", "degree", "betweenness", "gnn"]
 
-LOG_PATH = Path("logs/phase04.log")
+LOG_PATH = Path("logs/intervention.log")
 LOG_PATH.parent.mkdir(parents=True, exist_ok=True)
 logging.basicConfig(
     level=logging.INFO,
@@ -69,7 +69,7 @@ def evaluate_selected_set(
 
 
 def main() -> None:
-    logging.info("Phase 04 Task 11-12: counterfactual analysis start")
+    logging.info("Counterfactual analysis start")
 
     _ = pickle.load(open("data/processed/graph.pkl", "rb"))
     edges_df = pd.read_csv("data/processed/edgelist.csv")
@@ -159,7 +159,7 @@ def main() -> None:
         ).to_string()
     )
 
-    logging.info("Phase 04 Task 11-12 done")
+    logging.info("Counterfactual analysis done")
 
 
 if __name__ == "__main__":

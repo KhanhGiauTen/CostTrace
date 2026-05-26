@@ -10,42 +10,42 @@ ROOT = Path(__file__).resolve().parent
 
 PHASES = {
     "prepare": [
-        "00_verify_data.py",
-        "01_clean_data.py",
-        "02_build_graph.py",
-        "03_eda.py",
+        Path("src/costtrace/preparation/audit.py"),
+        Path("src/costtrace/preparation/curation.py"),
+        Path("src/costtrace/preparation/graph.py"),
+        Path("src/costtrace/preparation/profile.py"),
     ],
     "metrics": [
-        "04_basic_metrics.py",
-        "05_centrality.py",
-        "06_community.py",
-        "07_merge_scores.py",
+        Path("src/costtrace/analysis/topology.py"),
+        Path("src/costtrace/analysis/centrality.py"),
+        Path("src/costtrace/analysis/community.py"),
+        Path("src/costtrace/analysis/risk.py"),
     ],
     "model": [
-        "08_gnn_model.py",
+        Path("src/costtrace/modeling/graphsage.py"),
     ],
     "budget": [
-        "09_topk_budget.py",
-        "10_counterfactual.py",
-        "11_sir_simulation.py",
-        "12_metrics_summary.py",
+        Path("src/costtrace/intervention/allocation.py"),
+        Path("src/costtrace/intervention/counterfactual.py"),
+        Path("src/costtrace/intervention/simulation.py"),
+        Path("src/costtrace/intervention/evaluation.py"),
     ],
     "notebooks": [
-        "13_generate_experiment_notebooks.py",
+        Path("src/costtrace/reporting/notebooks.py"),
     ],
 }
 
 
-def run_script(script_name: str) -> None:
-    script_path = ROOT / "scripts" / script_name
+def run_script(script_path: Path) -> None:
+    script_path = ROOT / script_path
     if not script_path.exists():
         raise FileNotFoundError(f"Missing script: {script_path}")
 
-    print(f"\n=== Running {script_name} ===", flush=True)
+    print(f"\n=== Running {script_path.relative_to(ROOT)} ===", flush=True)
     subprocess.run([sys.executable, str(script_path)], cwd=ROOT, check=True)
 
 
-def selected_scripts(phase: str) -> list[str]:
+def selected_scripts(phase: str) -> list[Path]:
     if phase == "all":
         ordered = []
         for key in ["prepare", "metrics", "model", "budget", "notebooks"]:

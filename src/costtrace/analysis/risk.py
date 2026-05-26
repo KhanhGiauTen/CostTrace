@@ -4,7 +4,7 @@ from pathlib import Path
 import pandas as pd
 from sklearn.preprocessing import MinMaxScaler
 
-log_path = Path("logs/phase02.log")
+log_path = Path("logs/analysis.log")
 log_path.parent.mkdir(parents=True, exist_ok=True)
 logging.basicConfig(
     level=logging.INFO,
@@ -12,7 +12,7 @@ logging.basicConfig(
     handlers=[logging.FileHandler(log_path, mode="a", encoding="utf-8")],
 )
 
-logging.info("Task 9: merge node scores start")
+logging.info("Risk score synthesis start")
 
 centrality_df = pd.read_csv("results/centrality_scores.csv")
 
@@ -77,4 +77,4 @@ for k in [0.01, 0.05, 0.10]:
         f"(baseline: {centrality_df['sars_label'].mean()*100:.1f}%)"
     )
 
-logging.info("Task 9: merge node scores done")
+logging.info("Risk score synthesis done")

@@ -21,7 +21,7 @@ STRATEGIES = {
     "gnn": "gnn_infection_prob",
 }
 
-LOG_PATH = Path("logs/phase03.log")
+LOG_PATH = Path("logs/intervention.log")
 LOG_PATH.parent.mkdir(parents=True, exist_ok=True)
 logging.basicConfig(
     level=logging.INFO,
@@ -97,7 +97,7 @@ def evaluate_selection(
 
 
 def main() -> None:
-    logging.info("Phase 03 Task 10: top-k budget selection start")
+    logging.info("Budget allocation start")
 
     G = pickle.load(open("data/processed/graph.pkl", "rb"))
     scores_df = pd.read_csv("results/node_scores.csv")
@@ -238,13 +238,13 @@ def main() -> None:
     )
     auc_text = f"{gnn_auc:.3f}" if gnn_auc is not None else "NA"
     print(
-        f"\nPhase 03 DONE. GNN AUC: {auc_text}. "
+        f"\nBudget allocation completed. GNN AUC: {auc_text}. "
         f"Best strategy at k=1%: {best_k1['strategy']} "
         f"(trans.coverage={best_k1['transmission_coverage']:.1f}%)"
     )
 
     logging.info(
-        "Phase 03 Task 10 done | best_k1=%s trans_cov=%.1f",
+        "Budget allocation done | best_k1=%s trans_cov=%.1f",
         best_k1["strategy"],
         best_k1["transmission_coverage"],
     )

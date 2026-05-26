@@ -67,7 +67,7 @@ with open("data/processed/eda_summary.json", "w", encoding="utf-8") as f:
     json.dump(eda, f, indent=2, default=str)
 
 print(json.dumps(eda, indent=2, default=str))
-print("\nPhase 01 DONE")
+print("\nData profile completed")
 print(
     f"   Nodes: {G.number_of_nodes()} | Edges: {G.number_of_edges()} | Households: {len(comps)}"
 )

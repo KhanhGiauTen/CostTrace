@@ -8,7 +8,7 @@ import pandas as pd
 import pickle
 from networkx.algorithms.community import louvain_communities
 
-log_path = Path("logs/phase02.log")
+log_path = Path("logs/analysis.log")
 log_path.parent.mkdir(parents=True, exist_ok=True)
 logging.basicConfig(
     level=logging.INFO,
@@ -16,7 +16,7 @@ logging.basicConfig(
     handlers=[logging.FileHandler(log_path, mode="a", encoding="utf-8")],
 )
 
-logging.info("Task 8: community detection start")
+logging.info("Community detection start")
 
 G = pickle.load(open("data/processed/graph.pkl", "rb"))
 
@@ -79,12 +79,12 @@ with open("results/community_metrics.json", "w") as f:
     )
 
 print(
-    f"\nPhase 02 DONE. Communities: {len(communities)}, Modularity: {modularity:.4f}, "
-    f"HH-agreement: {agreement_pct:.1f}%"
+    f"\nCommunity analysis completed. Communities: {len(communities)}, "
+    f"Modularity: {modularity:.4f}, HH-agreement: {agreement_pct:.1f}%"
 )
 
 logging.info(
-    "Task 8: community detection done | communities=%s modularity=%.4f agreement=%.1f",
+    "Community detection done | communities=%s modularity=%.4f agreement=%.1f",
     len(communities),
     modularity,
     agreement_pct,

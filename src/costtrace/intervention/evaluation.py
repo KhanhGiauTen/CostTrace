@@ -8,7 +8,7 @@ import pandas as pd
 
 sys.stdout.reconfigure(encoding="utf-8")
 
-LOG_PATH = Path("logs/phase04.log")
+LOG_PATH = Path("logs/intervention.log")
 LOG_PATH.parent.mkdir(parents=True, exist_ok=True)
 logging.basicConfig(
     level=logging.INFO,
@@ -18,7 +18,7 @@ logging.basicConfig(
 
 
 def main() -> None:
-    logging.info("Phase 04 Task 14: metrics summary start")
+    logging.info("Intervention metrics summary start")
 
     cf_df = pd.read_csv("results/counterfactual_results.csv")
     sir_df = pd.read_csv("results/sir_intervention_results.csv")
@@ -112,8 +112,8 @@ def main() -> None:
             indent=2,
         )
 
-    print("\nPhase 04 DONE")
-    logging.info("Phase 04 Task 14 done | rows=%s", len(final))
+    print("\nIntervention evaluation completed.")
+    logging.info("Intervention metrics summary done | rows=%s", len(final))
 
 
 if __name__ == "__main__":

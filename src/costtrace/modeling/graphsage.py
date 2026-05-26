@@ -27,7 +27,7 @@ HIDDEN_DIM = 32
 LEARNING_RATE = 0.01
 WEIGHT_DECAY = 5e-4
 
-LOG_PATH = Path("logs/phase03.log")
+LOG_PATH = Path("logs/modeling.log")
 LOG_PATH.parent.mkdir(parents=True, exist_ok=True)
 logging.basicConfig(
     level=logging.INFO,
@@ -167,7 +167,7 @@ def predict_probs(model: torch.nn.Module, x: torch.Tensor, adj: torch.Tensor) ->
 
 def main() -> None:
     set_seed(SEED)
-    logging.info("Phase 03 Task 9: GNN model training start")
+    logging.info("GraphSAGE proxy training start")
 
     Path("models").mkdir(exist_ok=True)
     Path("results").mkdir(exist_ok=True)
@@ -303,7 +303,7 @@ def main() -> None:
     print("Model   : models/gnn_best.pt")
 
     logging.info(
-        "Phase 03 Task 9 done | test_auc=%.4f test_ap=%.4f threshold=%.2f",
+        "GraphSAGE proxy training done | test_auc=%.4f test_ap=%.4f threshold=%.2f",
         test_metrics["auc"],
         test_metrics["ap"],
         threshold,

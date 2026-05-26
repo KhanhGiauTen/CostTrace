@@ -20,7 +20,7 @@ MAX_RANDOM_REPEATS_FOR_SIR = 20
 BUDGET_LEVELS = [1, 5, 10]
 STRATEGIES = ["random", "degree", "betweenness", "gnn"]
 
-LOG_PATH = Path("logs/phase04.log")
+LOG_PATH = Path("logs/intervention.log")
 LOG_PATH.parent.mkdir(parents=True, exist_ok=True)
 logging.basicConfig(
     level=logging.INFO,
@@ -137,7 +137,7 @@ def summarize_counts(counts: list[int]) -> dict[str, float]:
 
 
 def main() -> None:
-    logging.info("Phase 04 Task 13: SIR simulation start")
+    logging.info("SIR simulation start")
 
     G = pickle.load(open("data/processed/graph.pkl", "rb"))
     meta = pd.read_csv("data/processed/metadata_clean.csv")
@@ -250,7 +250,7 @@ def main() -> None:
             indent=2,
         )
 
-    logging.info("Phase 04 Task 13 done | baseline_mean=%.4f", baseline["mean"])
+    logging.info("SIR simulation done | baseline_mean=%.4f", baseline["mean"])
 
 
 if __name__ == "__main__":

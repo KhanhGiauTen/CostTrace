@@ -14,7 +14,7 @@ import matplotlib
 
 matplotlib.use("Agg")
 
-ROOT = Path(__file__).resolve().parents[1]
+ROOT = Path(__file__).resolve().parents[3]
 NOTEBOOK_DIR = ROOT / "notebooks"
 FIG_DIR = ROOT / "results" / "figures"
 NOTEBOOK_DIR.mkdir(parents=True, exist_ok=True)

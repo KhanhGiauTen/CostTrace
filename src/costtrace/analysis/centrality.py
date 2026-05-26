@@ -6,7 +6,7 @@ import numpy as np
 import pandas as pd
 import pickle
 
-log_path = Path("logs/phase02.log")
+log_path = Path("logs/analysis.log")
 log_path.parent.mkdir(parents=True, exist_ok=True)
 logging.basicConfig(
     level=logging.INFO,
@@ -14,7 +14,7 @@ logging.basicConfig(
     handlers=[logging.FileHandler(log_path, mode="a", encoding="utf-8")],
 )
 
-logging.info("Task 6: centrality scores start")
+logging.info("Centrality scores start")
 
 G = pickle.load(open("data/processed/graph.pkl", "rb"))
 comps = [G.subgraph(c).copy() for c in nx.connected_components(G)]
@@ -95,4 +95,4 @@ print(
     )
 )
 
-logging.info("Task 6: centrality scores done")
+logging.info("Centrality scores done")
