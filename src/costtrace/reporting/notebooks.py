@@ -20,6 +20,27 @@ FIG_DIR = ROOT / "results" / "figures"
 NOTEBOOK_DIR.mkdir(parents=True, exist_ok=True)
 FIG_DIR.mkdir(parents=True, exist_ok=True)
 
+FIGURE_SLUGS = {
+    "assessment": {
+        4: "rubric",
+        6: "dashboard",
+        8: "checklist",
+    },
+    "topology": {
+        4: "components",
+        6: "network",
+        8: "centrality",
+        10: "community",
+    },
+    "intervention": {
+        4: "comparison",
+        6: "model",
+        8: "overlap",
+        10: "recommendation",
+    },
+}
+EXTRA_FIGURE_SUFFIXES = ["", "_detail", "_appendix", "_supplement"]
+
 
 def md(source: str) -> dict:
     return {
@@ -40,7 +61,7 @@ def code(source: str) -> dict:
 
 
 NOTEBOOKS = {
-    "00_costtrace_rubric_audit.ipynb": [
+    "assessment.ipynb": [
         md(
             """
             # CostTrace - Tổng quan theo tiêu chí cuối kỳ
@@ -284,10 +305,10 @@ NOTEBOOKS = {
             """
         ),
     ],
-    "01_graph_structure_experiment.ipynb": [
+    "topology.ipynb": [
         md(
             """
-            # Thực nghiệm 1 - Cấu trúc mạng và điểm node
+            # Cấu trúc mạng và điểm node
 
             Notebook này kiểm tra dữ liệu, cấu trúc component, centrality và cộng đồng.
             Mỗi cell code đều in một insight ngắn để dùng trực tiếp trong phần báo cáo.
@@ -493,10 +514,10 @@ NOTEBOOKS = {
             """
         ),
     ],
-    "02_strategy_budget_experiment.ipynb": [
+    "intervention.ipynb": [
         md(
             """
-            # Thực nghiệm 2 - So sánh chiến lược theo ngân sách
+            # So sánh chiến lược theo ngân sách
 
             Notebook này đọc các kết quả đã sinh từ pipeline và trực quan hóa khác biệt giữa random,
             degree, betweenness và GNN ở các mức ngân sách 1%, 5%, 10%.
@@ -781,7 +802,9 @@ def execute_code_cell(source: str, namespace: dict, notebook_stem: str, cell_ind
 
     for fig_position, fig_num in enumerate(plt.get_fignums(), start=1):
         fig = plt.figure(fig_num)
-        image_name = f"{notebook_stem}_cell_{cell_index:02d}_fig_{fig_position}.png"
+        figure_slug = FIGURE_SLUGS.get(notebook_stem, {}).get(cell_index, "figure")
+        suffix_index = min(fig_position - 1, len(EXTRA_FIGURE_SUFFIXES) - 1)
+        image_name = f"{notebook_stem}_{figure_slug}{EXTRA_FIGURE_SUFFIXES[suffix_index]}.png"
         image_path = FIG_DIR / image_name
         fig.savefig(image_path, dpi=160, bbox_inches="tight")
 
