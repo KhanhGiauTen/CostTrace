@@ -60,37 +60,39 @@ The project compares four strategies:
 
 ## Visual Report
 
+The visual material below is organized as an analytical report. Each figure is accompanied by a concise academic insight that explains what the visualization contributes to the research argument.
+
 ### Main Report Figures
 
 <table>
   <tr>
     <td width="50%">
       <img src="visualizations/network_overview.png" alt="Contact network overview" width="100%">
-      <br><strong>Network overview.</strong> Node size follows degree centrality, colors indicate household/community structure, and highlighted nodes indicate high composite risk.
+      <p><strong>Figure 1 - Network overview.</strong> This figure provides the global structural view of the SASHTS contact graph after event aggregation. The visualization shows that the network is not a single connected population-level system, but a collection of household-level components. Node sizing by degree centrality makes highly connected individuals visible, while community coloring confirms that exposure is organized primarily around household boundaries. This supports the methodological decision to evaluate topology and intervention effects at the household-component level rather than relying only on whole-graph metrics.</p>
     </td>
     <td width="50%">
       <img src="visualizations/chart_degree_distribution.png" alt="Degree distribution" width="100%">
-      <br><strong>Degree distribution.</strong> Household contact networks are locally dense but bounded by small household sizes.
+      <p><strong>Figure 2 - Degree distribution.</strong> The degree distribution demonstrates that contact opportunities are bounded by household size, with no large-scale hub structure comparable to open social networks. Although maximum degree is limited, variation in degree still matters because within a small household even one additional direct contact can meaningfully change potential transmission coverage. The figure therefore justifies Degree Centrality as a strong low-budget baseline.</p>
     </td>
   </tr>
   <tr>
     <td width="50%">
       <img src="visualizations/chart_heatmap.png" alt="Prevention-rate heatmap" width="100%">
-      <br><strong>Prevention-rate heatmap.</strong> GNN improves sharply at 5% and 10% budgets, while Degree remains competitive at 1%.
+      <p><strong>Figure 3 - Prevention-rate heatmap.</strong> The heatmap summarizes counterfactual prevention rate across strategies and budget levels, making the main non-linear result visually explicit. At 1% budget, Degree remains competitive because only three nodes are selected and direct contact coverage dominates. At 5% and 10%, GNN improves faster than the baselines, indicating that learned multi-feature ranking becomes more valuable once the intervention budget is large enough to exploit multiple risk signals.</p>
     </td>
     <td width="50%">
       <img src="visualizations/chart_reduction_by_strategy.png" alt="SIR reduction by strategy" width="100%">
-      <br><strong>SIR reduction by strategy.</strong> GNN produces the largest epidemic-size reduction as the intervention budget increases.
+      <p><strong>Figure 4 - SIR reduction by strategy.</strong> This grouped comparison shows the reduction in simulated epidemic size under SIR dynamics after removing selected nodes. The pattern confirms that GNN is not only strong under observed-edge counterfactual analysis, but also under a dynamic propagation model. The widening gap between GNN and centrality baselines at higher budgets suggests that integrated risk ranking is more robust than relying on a single structural measure.</p>
     </td>
   </tr>
   <tr>
     <td width="50%">
       <img src="visualizations/chart_sir_baseline.png" alt="SIR baseline" width="100%">
-      <br><strong>SIR baseline.</strong> Baseline epidemic simulation before node removal.
+      <p><strong>Figure 5 - SIR baseline.</strong> The baseline SIR curve establishes the reference epidemic behavior before any intervention is applied. It functions as the control condition for later comparisons, allowing every strategy to be interpreted in terms of reduction against the same simulated household-level outbreak process. This is important because raw prevention counts alone do not show how much the expected epidemic burden changes under stochastic transmission.</p>
     </td>
     <td width="50%">
       <img src="results/figures/intervention/recommendation.png" alt="Budget recommendation" width="100%">
-      <br><strong>Budget recommendation.</strong> Degree is suitable for ultra-low and explainable selection; GNN is preferred once budget reaches 5% or more.
+      <p><strong>Figure 6 - Budget recommendation.</strong> The recommendation figure translates quantitative findings into an operational decision rule. For extremely small budgets, Degree is defensible because it is transparent, fast, and competitive in counterfactual prevention. For budgets of 5% or higher, GNN is recommended because it consistently improves both prevention rate and SIR reduction. The figure therefore bridges analytical evaluation and policy-facing prioritization.</p>
     </td>
   </tr>
 </table>
@@ -101,41 +103,41 @@ The project compares four strategies:
   <tr>
     <td width="50%">
       <img src="results/figures/topology/network.png" alt="Topology network view" width="100%">
-      <br><strong>Topology network view.</strong>
+      <p><strong>Figure 7 - Topology network view.</strong> This topology-focused visualization verifies the disconnected household structure of the graph and highlights the small-component nature of the empirical contact network. It helps explain why component-aware metrics are necessary: global shortest-path or centrality interpretations would be misleading when the population is partitioned into isolated household subgraphs.</p>
     </td>
     <td width="50%">
       <img src="results/figures/topology/components.png" alt="Connected components" width="100%">
-      <br><strong>Connected components.</strong>
+      <p><strong>Figure 8 - Connected components.</strong> The component analysis shows that each connected component corresponds to one household and that household sizes are small but heterogeneous. This provides an empirical basis for treating households as the unit of local transmission. It also explains why the intervention problem is sensitive at 1% budget: selecting only three nodes cannot cover many independent components.</p>
     </td>
   </tr>
   <tr>
     <td width="50%">
       <img src="results/figures/topology/community.png" alt="Louvain communities" width="100%">
-      <br><strong>Louvain communities.</strong>
+      <p><strong>Figure 9 - Louvain communities.</strong> The Louvain visualization demonstrates that detected communities align with household labels, supported by 88 communities, 0.9696 modularity, and 100% household agreement. In this dataset, community detection primarily validates the known data-generating structure rather than discovering hidden cross-household clusters. This finding is analytically important because it limits the expected advantage of bridge-oriented methods such as Betweenness.</p>
     </td>
     <td width="50%">
       <img src="results/figures/topology/centrality.png" alt="Centrality analysis" width="100%">
-      <br><strong>Centrality analysis.</strong>
+      <p><strong>Figure 10 - Centrality analysis.</strong> The centrality figure compares different structural notions of importance, including direct connectivity, weighted exposure intensity, bridge position, and closeness within households. The contrast between these measures shows that risk is multidimensional: some nodes are important because they contact many others, while others matter because contact duration or local position increases exposure. This motivates both the composite score and the GraphSAGE feature design.</p>
     </td>
   </tr>
   <tr>
     <td width="50%">
       <img src="results/figures/intervention/model.png" alt="GraphSAGE model metrics" width="100%">
-      <br><strong>GraphSAGE model metrics.</strong>
+      <p><strong>Figure 11 - GraphSAGE model metrics.</strong> The model evaluation figure summarizes the predictive behavior of the Weighted GraphSAGE proxy across training, validation, and test splits. The high Average Precision indicates that the model is useful for ranking high-risk nodes, while the train-test gap warns that the small dataset creates overfitting risk. This supports the careful interpretation of GNN output as a prioritization score rather than a definitive clinical classifier.</p>
     </td>
     <td width="50%">
       <img src="results/figures/intervention/comparison.png" alt="Intervention comparison" width="100%">
-      <br><strong>Intervention comparison.</strong>
+      <p><strong>Figure 12 - Intervention comparison.</strong> This figure integrates the main intervention metrics into a comparative view across budget levels and strategies. It makes clear that strategy ranking changes with budget: Degree is competitive when the selection set is extremely small, whereas GNN becomes dominant when more nodes can be selected. The figure therefore supports the central conclusion that intervention design must be budget-sensitive rather than based on a single universal ranking rule.</p>
     </td>
   </tr>
   <tr>
     <td width="50%">
       <img src="results/figures/intervention/overlap.png" alt="Strategy overlap" width="100%">
-      <br><strong>Strategy overlap.</strong>
+      <p><strong>Figure 13 - Strategy overlap.</strong> The overlap visualization examines whether different strategies select the same individuals. Greater overlap between Degree and GNN suggests that the learned model still recognizes direct contact intensity as a major risk signal, while divergence from Betweenness indicates that bridge-like nodes are not always transmission-relevant in isolated household components. This figure clarifies why strategy performance differs even when all methods use the same underlying graph.</p>
     </td>
     <td width="50%">
-      <img src="results/figures/intervention/recommendation.png" alt="Final recommendation" width="100%">
-      <br><strong>Final recommendation.</strong>
+      <img src="results/gephi/louvain_selected_communities.png" alt="Gephi Louvain selected communities" width="100%">
+      <p><strong>Figure 14 - Gephi Louvain selected communities.</strong> The Gephi-based community visualization offers an external layout-oriented validation of the Louvain results. By coloring selected communities in a graph exploration environment, it confirms that household modules are visually separable and structurally compact. This reinforces the interpretation that transmission dynamics in SASHTS are dominated by local household clusters rather than by broad inter-community mixing.</p>
     </td>
   </tr>
 </table>
@@ -203,74 +205,19 @@ flowchart LR
     K --> L["Report figures and notebooks"]
 ```
 
-### Step 1 - Data Audit and Cleaning
+### Detailed Research Procedure
 
-Raw proximity events are loaded from [`data/raw/sashts_contact_network.csv`](data/raw/sashts_contact_network.csv), and participant metadata is loaded from [`data/raw/sashts_metadata.csv`](data/raw/sashts_metadata.csv).
+**Step 1 - Data acquisition and source verification.** The study begins by loading raw proximity events from [`data/raw/sashts_contact_network.csv`](data/raw/sashts_contact_network.csv) and participant metadata from [`data/raw/sashts_metadata.csv`](data/raw/sashts_metadata.csv). At this stage, the pipeline verifies record counts, checks missingness, identifies the distinction between real and unavailable timestamps, and confirms that the raw files match the SASHTS household-transmission setting described in the report.
 
-The cleaning process:
+**Step 2 - Contact-event curation.** Raw sensor events are standardized before graph construction. Self-loops are removed, unordered individual pairs are canonicalized so that A-B and B-A are treated as the same dyad, and repeated proximity observations are aggregated into a single pair-level contact record. The resulting edge weight is total contact duration in seconds, while contact frequency is retained as an additional exposure-intensity attribute.
 
-- checks missing values,
-- removes self-loops,
-- canonicalizes pair order so A-B and B-A are treated as the same pair,
-- tracks partial timestamp availability,
-- aggregates repeated proximity events into one weighted edge per individual pair,
-- validates that all edge endpoints exist in metadata.
+**Step 3 - Metadata integration and graph construction.** Each individual is represented as a node, and each aggregated contact pair is represented as an undirected weighted edge. Node attributes such as site, age group, sex, SARS status, index/contact role, susceptibility, sleep-room exposure, caregiving exposure, and household identifier are attached to the graph. The core outputs of this stage are [`data/processed/graph.pkl`](data/processed/graph.pkl), [`data/processed/nodelist.csv`](data/processed/nodelist.csv), [`data/processed/edgelist.csv`](data/processed/edgelist.csv), and the Gephi export [`results/gephi/contact_network.gexf`](results/gephi/contact_network.gexf).
 
-Main output:
+**Step 4 - Descriptive topology analysis.** The graph is analyzed as 88 connected household components rather than as a single connected population graph. The pipeline computes global and household-level statistics, including node count, edge count, component count, density, average degree, maximum degree, household-size distribution, clustering, and transmission-edge distribution. This step establishes the empirical fact that the network is globally sparse but locally dense inside households.
 
-- [`data/processed/edges_clean.csv`](data/processed/edges_clean.csv)
-- [`data/processed/metadata_clean.csv`](data/processed/metadata_clean.csv)
+**Step 5 - Centrality and community characterization.** The analysis then computes Degree Centrality, Weighted Degree, Betweenness Centrality, and Closeness Centrality for each node, while Louvain community detection is used to test whether the graph structure recovers household boundaries. The finding that Louvain identifies 88 communities with 100% household agreement validates the household component as the dominant structural unit of analysis.
 
-### Step 2 - Weighted Contact Graph Construction
-
-Each individual becomes a node. Each contact pair becomes an undirected edge weighted by total contact duration in seconds.
-
-The graph stores:
-
-- edge weight: `total_duration_sec`,
-- contact frequency: `n_contacts`,
-- transmission label: `pair_sars`,
-- partial timestamp flag: `has_real_ts`,
-- node-level metadata from the SASHTS participant table.
-
-Main output:
-
-- [`data/processed/graph.pkl`](data/processed/graph.pkl)
-- [`data/processed/nodelist.csv`](data/processed/nodelist.csv)
-- [`data/processed/edgelist.csv`](data/processed/edgelist.csv)
-- [`results/gephi/contact_network.gexf`](results/gephi/contact_network.gexf)
-
-### Step 3 - Network Topology
-
-The graph is analyzed as 88 household components. This matters because the global graph is disconnected by design: there are no cross-household edges in this dataset.
-
-Measured topology includes:
-
-- number of nodes and edges,
-- connected components,
-- household density,
-- household diameter,
-- clustering coefficient,
-- degree distribution,
-- weighted degree distribution.
-
-The main structural insight is that the network is sparse globally but dense within households. Therefore, household-level interpretation is more meaningful than global connectedness.
-
-### Step 4 - Centrality and Community Detection
-
-CostTrace computes:
-
-- Degree Centrality,
-- Weighted Degree,
-- Betweenness Centrality,
-- Closeness Centrality,
-- Louvain community assignments.
-
-Louvain identifies 88 communities with 100% agreement against household labels. This confirms that household boundaries dominate the community structure.
-
-### Step 5 - Composite Risk Score
-
-A simple interpretable risk score is built from normalized structural and exposure features:
+**Step 6 - Interpretable risk-score synthesis.** A composite risk score is constructed from normalized degree centrality, normalized weighted contact duration, normalized betweenness centrality, and sleep-room exposure. The score is intentionally interpretable: it combines direct contact opportunity, cumulative exposure intensity, structural bridging, and household exposure context. It serves as both a baseline risk ranking and a bridge between classical social network analysis and graph-learning features.
 
 ```text
 composite_risk_score =
@@ -280,60 +227,13 @@ composite_risk_score =
 + 0.15 * sleep_room_enc
 ```
 
-This score is not the final model. It acts as an interpretable baseline and as a feature engineering bridge for later GNN-based risk ranking.
+**Step 7 - Weighted GraphSAGE risk modeling.** A pure-PyTorch Weighted GraphSAGE proxy is trained to estimate node-level SARS positivity risk from structural features and epidemiological metadata. Edge weights are transformed using `log1p(total_duration_sec)` and row-normalized for weighted mean aggregation. The model is evaluated with stratified train, validation, and test splits, and its output is used primarily as a ranking signal for intervention rather than as a standalone diagnostic classifier.
 
-### Step 6 - Weighted GraphSAGE Proxy
+**Step 8 - Budget-constrained node allocation.** The project formulates intervention as a top-k node selection problem under three budget levels: 1% equals 3 nodes, 5% equals 17 nodes, and 10% equals 34 nodes. Four strategies are compared under the same budgets: Random, Degree, Betweenness, and GNN. Random selection is averaged across repeated samples, while the deterministic strategies rank nodes by their corresponding score.
 
-The GNN model is a lightweight pure-PyTorch Weighted GraphSAGE classifier. It learns node infection probability from both network structure and epidemiological metadata.
+**Step 9 - Counterfactual and simulation-based evaluation.** Intervention effectiveness is measured through two complementary evaluation layers. Counterfactual transmission analysis estimates how many observed transmission edges and secondary/contact infections would be blocked if selected nodes were intervened on. SIR simulation then evaluates how much the expected household epidemic size decreases after node removal, using `beta = 0.25`, `gamma = 0.10`, a 30-day horizon, 50 Monte Carlo runs, and log-duration-scaled transmission probabilities.
 
-The model is used for **ranking**, not as a clinical diagnosis system. In budget-constrained intervention, ranking the top-k highest-risk nodes is more important than producing a perfect binary classifier.
-
-### Step 7 - Budget-Constrained Top-k Selection
-
-For each budget level, the project selects the top-k nodes according to each strategy:
-
-| Budget | Nodes Selected |
-|---:|---:|
-| 1% | 3 |
-| 5% | 17 |
-| 10% | 34 |
-
-The selected nodes are saved in [`results/intervention/selected_nodes_by_strategy.json`](results/intervention/selected_nodes_by_strategy.json).
-
-### Step 8 - Counterfactual Transmission Evaluation
-
-Counterfactual analysis asks: if selected nodes were removed or successfully intervened on, how many observed transmission edges and secondary/contact infections would be blocked?
-
-Core metrics:
-
-- `transmissions_blocked`,
-- `transmission_block_rate_pct`,
-- `infections_prevented`,
-- `prevention_rate_pct`,
-- selected index cases,
-- selected contacts,
-- SARS-positive contacts selected.
-
-### Step 9 - SIR Simulation
-
-The project also runs an SIR simulation per household component.
-
-Parameters:
-
-| Parameter | Value |
-|---|---:|
-| Infection rate `beta` | 0.25 |
-| Recovery rate `gamma` | 0.10 |
-| Time horizon | 30 days |
-| Monte Carlo runs | 50 |
-| Random seed | 42 |
-| Baseline mean infected per household | 3.4214 |
-
-Transmission probability is scaled by log contact duration:
-
-```text
-log1p(total_duration_sec) / log1p(max_duration_sec)
-```
+**Step 10 - Reporting, visualization, and reproducibility.** Final tables, charts, notebook figures, and report artifacts are generated from the structured outputs under [`results/`](results/). The final comparison table, strategy summary, GraphSAGE metrics, topology figures, intervention figures, and Gephi exports make the analysis auditable and reproducible through the single entrypoint [`main.py`](main.py).
 
 ## Pipeline Stages
 
