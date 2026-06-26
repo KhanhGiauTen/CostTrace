@@ -1,0 +1,70 @@
+{
+  "created_at_utc": "2026-06-26T19:48:25.939634+00:00",
+  "seeds": [
+    11,
+    23,
+    42,
+    77,
+    101
+  ],
+  "n_folds": 3,
+  "split_protocol": "household-grouped 3-fold; validation fold is next household fold; no household overlap",
+  "early_stopping": {
+    "metric": "validation average precision",
+    "patience": 50,
+    "max_epochs": 800,
+    "checkpoint": "best validation AP weights retained per run"
+  },
+  "feature_sets": {
+    "full": [
+      "degree_centrality",
+      "betweenness_centrality",
+      "closeness_centrality",
+      "log_degree",
+      "log_weighted_degree_sec",
+      "sleep_room_enc",
+      "cared_by_enc",
+      "age_enc",
+      "sex_enc",
+      "site_enc"
+    ],
+    "remove_metadata": [
+      "degree_centrality",
+      "betweenness_centrality",
+      "closeness_centrality",
+      "log_degree",
+      "log_weighted_degree_sec"
+    ],
+    "remove_centrality": [
+      "log_degree",
+      "log_weighted_degree_sec",
+      "sleep_room_enc",
+      "cared_by_enc",
+      "age_enc",
+      "sex_enc",
+      "site_enc"
+    ],
+    "remove_edge_contact": [
+      "degree_centrality",
+      "betweenness_centrality",
+      "closeness_centrality",
+      "sleep_room_enc",
+      "cared_by_enc",
+      "age_enc",
+      "sex_enc",
+      "site_enc"
+    ],
+    "topology_only": [
+      "degree_centrality",
+      "betweenness_centrality",
+      "closeness_centrality",
+      "log_degree",
+      "log_weighted_degree_sec"
+    ]
+  },
+  "notes": [
+    "Main external trace evaluation uses SocioPatterns primary school and hospital contact graphs.",
+    "GraphSAGE-style model is numpy mean-neighbor aggregation plus trainable logistic layer.",
+    "SASHTS-only supervised labels use sars_label from existing node_scores.csv."
+  ]
+}
