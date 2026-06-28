@@ -1,0 +1,96 @@
+{
+  "created_at_utc": "2026-06-26T19:25:53.916172+00:00",
+  "selection_metric": "mean validation average precision across tuning seeds/folds",
+  "tuning_seeds": [
+    11,
+    23,
+    42
+  ],
+  "n_folds": 3,
+  "candidate_configs": [
+    {
+      "hidden_dim": 8,
+      "dropout_1": 0.2,
+      "dropout_2": 0.1,
+      "lr": 0.005,
+      "weight_decay": 0.0001
+    },
+    {
+      "hidden_dim": 8,
+      "dropout_1": 0.35,
+      "dropout_2": 0.2,
+      "lr": 0.01,
+      "weight_decay": 0.0005
+    },
+    {
+      "hidden_dim": 16,
+      "dropout_1": 0.2,
+      "dropout_2": 0.1,
+      "lr": 0.01,
+      "weight_decay": 0.0001
+    },
+    {
+      "hidden_dim": 16,
+      "dropout_1": 0.35,
+      "dropout_2": 0.2,
+      "lr": 0.01,
+      "weight_decay": 0.0005
+    },
+    {
+      "hidden_dim": 16,
+      "dropout_1": 0.5,
+      "dropout_2": 0.3,
+      "lr": 0.005,
+      "weight_decay": 0.001
+    },
+    {
+      "hidden_dim": 32,
+      "dropout_1": 0.2,
+      "dropout_2": 0.1,
+      "lr": 0.01,
+      "weight_decay": 0.0005
+    },
+    {
+      "hidden_dim": 32,
+      "dropout_1": 0.35,
+      "dropout_2": 0.2,
+      "lr": 0.01,
+      "weight_decay": 0.0005
+    },
+    {
+      "hidden_dim": 32,
+      "dropout_1": 0.5,
+      "dropout_2": 0.3,
+      "lr": 0.005,
+      "weight_decay": 0.001
+    }
+  ],
+  "selected_config": {
+    "config_id": 3,
+    "hidden_dim": 16,
+    "dropout_1": 0.2,
+    "dropout_2": 0.1,
+    "lr": 0.01,
+    "weight_decay": 0.0001,
+    "runs": 9,
+    "validation_ap_mean": 0.8053306008880994,
+    "validation_ap_std": 0.02394290885443513,
+    "validation_ap_mean_std": "0.8053 +/- 0.0239",
+    "validation_auc_mean": 0.622354799057308,
+    "validation_auc_std": 0.04077800165658661,
+    "validation_auc_mean_std": "0.6224 +/- 0.0408",
+    "validation_brier_mean": 0.24411672581221497,
+    "validation_brier_std": 0.02047463335837627,
+    "validation_brier_mean_std": "0.2441 +/- 0.0205",
+    "test_ap_mean": 0.7661089879112051,
+    "test_ap_std": 0.020294765750409973,
+    "test_ap_mean_std": "0.7661 +/- 0.0203",
+    "test_auc_mean": 0.5734198243457502,
+    "test_auc_std": 0.047368579893845734,
+    "test_auc_mean_std": "0.5734 +/- 0.0474",
+    "best_epoch_mean": 37.22222222222222,
+    "best_epoch_std": 55.99503946283495,
+    "best_epoch_mean_std": "37.2222 +/- 55.9950",
+    "early_stopped_runs": 9
+  }
+}

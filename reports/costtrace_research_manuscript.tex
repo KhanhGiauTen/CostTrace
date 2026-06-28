@@ -79,7 +79,7 @@
 \maketitle
 
 \begin{abstract}
-Household contact networks provide a structured representation of close physical interactions that may shape infectious disease transmission. This study presents \costtrace, a reproducible pipeline for budget-constrained node intervention in an empirical SARS-CoV-2 household contact network. Using the SASHTS dataset, we aggregate 140,542 raw proximity events into a weighted undirected graph of 340 individuals, 542 contact edges, and 88 household components. The pipeline computes topology, centrality, Louvain communities, interpretable composite risk scores, and a lightweight pure-PyTorch Weighted GraphSAGE proxy for node-level infection-risk ranking. We compare Random, Degree, Betweenness, and GraphSAGE-based strategies under 1\%, 5\%, and 10\% intervention budgets using counterfactual transmission blocking and household-level SIR simulation. The household graph is globally sparse but locally dense, with average household density 0.9633 and Louvain modularity 0.9696 with 100\% household agreement. After leakage-control revisions, GraphSAGE is evaluated with household-held-out splits, train-only scaling, and removal of deterministic label-proxy features; under this stricter protocol, it achieves test AUC 0.4428 and average precision 0.7359. Under counterfactual evaluation, Degree performs best at the 1\% budget with a 4.6\% prevention rate, GraphSAGE performs best at 5\% with a 17.6\% prevention rate, and Random performs best at 10\% with a 33.0\% prevention rate. In SIR simulation, GraphSAGE has the largest reduction at 5\% and 10\%, reaching 12.6\% and 22.7\% reductions, respectively. These findings show that earlier node-level evaluation was optimistic and that the current results should be interpreted as leakage-controlled proof-of-concept evidence rather than as a clinical decision system.
+Household contact networks provide a structured representation of close physical interactions that may shape infectious disease transmission. This study presents \costtrace, a reproducible pipeline for budget-constrained node intervention in an empirical SARS-CoV-2 household contact network. Using the SASHTS dataset, we aggregate 140,542 raw proximity events into a weighted undirected graph of 340 individuals, 542 contact edges, and 88 household components. The pipeline computes topology, centrality, Louvain communities, interpretable composite risk scores, and a graph-learning model for node-level infection-risk ranking. We compare Random, Degree, Betweenness, and graph-learning-based strategies under 1\%, 5\%, and 10\% intervention budgets using counterfactual transmission blocking and household-level SIR simulation. The household graph is globally sparse but locally dense, with average household density 0.9633 and Louvain modularity 0.9696 with 100\% household agreement. After leakage-control revisions, Phase 04 evaluates a full PyTorch two-layer weighted mean GraphSAGE model with household-grouped multi-seed folds, train-only scaling, validation average-precision early stopping, and removal of deterministic label-proxy features; under this stricter protocol, it achieves test AUC \(0.5842 \pm 0.0487\) and average precision \(0.7809 \pm 0.0295\). Under the earlier intervention evaluation, Degree performs best at the 1\% budget with a 4.6\% prevention rate, GraphSAGE performs best at 5\% with a 17.6\% prevention rate, and Random performs best at 10\% with a 33.0\% prevention rate. These intervention findings remain provisional until Phase 05 reruns allocation with the Phase 04 model outputs. Overall, these findings show that earlier node-level evaluation was optimistic and that the current results should be interpreted as leakage-controlled proof-of-concept evidence rather than as a clinical decision system.
 \end{abstract}
 
 \noindent\textbf{Keywords:} contact network; epidemic intervention; budget-constrained node selection; GraphSAGE; social network analysis; SARS-CoV-2; SIR simulation.
@@ -90,7 +90,7 @@ Household contact networks provide a structured representation of close physical
   \item Confirm the exact target journal, article type, and reference style.
   \item Fill final author names, affiliations, emails, corresponding author, phone, and ORCID.
   \item Confirm whether a Vietnamese title page and Vietnamese abstract are required.
-  \item Replace all provisional wording if Phase 04--05 upgrades produce new validated multi-fold or sensitivity results.
+  \item Phase 04 multi-seed/fold modeling tables now exist; rerun Phase 05 intervention and sensitivity analyses before finalizing claims that depend on intervention rankings.
   \item Confirm raw-data redistribution permissions; otherwise cite data source only and omit raw data from public release.
 \end{itemize}
 
@@ -187,7 +187,7 @@ where \(d_v\) is normalized degree centrality, \(w_v\) is normalized weighted de
 
 \subsection{Leakage Control and Split Protocol}
 
-Phase 03 identified three leakage risks in the original course-style pipeline: node-level random splitting mixed members of the same household across train and test sets; deterministic metadata proxies such as index-case status and susceptibility encoded the SARS outcome for the index cases; and continuous-feature normalization had been computed before the model split. The revised protocol uses household-level train/validation/test masks, removes \texttt{is\_index} and \texttt{sus\_enc} from the GraphSAGE feature set, and fits continuous-feature scaling on train households only. The current split contains 61 training households, 15 validation households, and 12 test households, with zero household overlap across splits.
+Phase 03 identified three leakage risks in the original course-style pipeline: node-level random splitting mixed members of the same household across train and test sets; deterministic metadata proxies such as index-case status and susceptibility encoded the SARS outcome for the index cases; and continuous-feature normalization had been computed before the model split. The revised protocol uses household-grouped train/validation/test masks, removes \texttt{is\_index} and \texttt{sus\_enc} from the graph-learning feature set, and fits continuous-feature scaling on train households only. Phase 04 extends this from one split to five seeds and three household-grouped folds per seed.
 
 \begin{table}[htbp]
 \centering
@@ -198,18 +198,18 @@ Phase 03 identified three leakage risks in the original course-style pipeline: n
 Risk & Evidence & Mitigation & Residual risk \\
 \midrule
 Label-proxy features & \texttt{is\_index=1} and \texttt{sus\_enc=0} each correspond to 88/88 SARS-positive individuals in the current artifacts. & Remove \texttt{is\_index} and \texttt{sus\_enc} from GraphSAGE inputs. & Other epidemiological fields may still be post-outcome unless the observation time is confirmed. \\
-Household overlap & The legacy node-level split placed train and test nodes in the same household for 37/88 households. & Use household-level split with no household overlap. & The small number of households can increase metric variance; multi-fold evaluation remains future work. \\
+Household overlap & The legacy node-level split placed train and test nodes in the same household for 37/88 households. & Use household-grouped folds with no household overlap. & The small number of households can still increase metric variance, so mean and standard deviation are reported. \\
 Full-data scaling & Previous normalized columns were produced before the model split. & Fit continuous-feature scaling parameters on train households only. & Composite risk remains descriptive unless recalculated within each predictive fold. \\
 Edge outcome leakage & Processed edge lists retain observed \texttt{pair\_sars}/\texttt{transmission} labels for retrospective evaluation. & GraphSAGE adjacency uses only contact duration weights. & Counterfactual evaluation remains retrospective observed-edge blocking, not prospective causal validation. \\
 \bottomrule
 \end{tabularx}
 \end{table}
 
-\subsection{Weighted GraphSAGE Proxy}
+\subsection{Weighted GraphSAGE Model}
 
-The graph-learning model is a lightweight pure-PyTorch Weighted GraphSAGE classifier. After leakage-control revisions, it uses 9 input features: train-scaled degree centrality, train-scaled weighted degree, train-scaled betweenness centrality, train-scaled closeness centrality, sleep-room exposure, caregiving exposure, scaled age group, sex, and site.
+The Phase 04 graph-learning model is a full PyTorch two-layer weighted mean GraphSAGE classifier. It combines a self-node linear transform with a row-normalized weighted-neighbor transform at each layer, followed by ReLU, dropout, and a binary output layer. The main feature set contains degree centrality, weighted contact intensity, betweenness centrality, closeness centrality, sleep-room exposure, caregiving exposure, scaled age group, sex, and site.
 
-Edge weights are transformed as \(\log(1 + \mathrm{duration})\) and row-normalized for weighted mean aggregation. The model is trained with the household-held-out 70\%/15\%/15\% train/validation/test protocol described above, 500 epochs, Adam optimization, learning rate 0.01, weight decay \(5\times 10^{-4}\), and seed 42. The output probability is used as a ranking score for top-\(k\) selection.
+Edge weights are transformed as \(\log(1 + \mathrm{duration})\) and row-normalized for weighted mean aggregation. Phase 04 uses five seeds, three household-grouped folds per seed, patience 50, validation average precision as the checkpoint metric, and stores full PyTorch GraphSAGE metric outputs under \texttt{results/model/}. The output probability is used only for model-comparison evidence in Phase 04; intervention tables should be rerun in Phase 05 before final publication claims.
 
 Although the code loads the complete graph object for implementation convenience, SASHTS connected components do not cross household boundaries; therefore, the household-held-out split prevents message passing between training and test households.
 
@@ -259,22 +259,28 @@ The SASHTS graph contains 340 nodes and 542 weighted edges across 88 connected h
 
 \subsection{GraphSAGE Risk Model}
 
-Under the leakage-controlled household-held-out protocol, the Weighted GraphSAGE proxy achieves test AUC 0.4428 and test average precision 0.7359. This is substantially weaker than the previous node-level evaluation and indicates that the original course-style protocol overestimated generalization. The model output is retained only as one ranking signal for the intervention comparison, not as evidence of a deployable diagnostic classifier.
+Under the leakage-controlled Phase 04 protocol, the full PyTorch GraphSAGE model achieves test AUC \(0.5842 \pm 0.0487\) and test average precision \(0.7809 \pm 0.0295\) over 15 household-grouped runs. This is reported alongside stronger baselines rather than as a standalone model claim. The model output is retained only as one ranking signal, not as evidence of a deployable diagnostic classifier.
 
 \begin{table}[htbp]
 \centering
-\caption{Weighted GraphSAGE performance. Values are read from \texttt{results/model/gnn\_metrics.json}.}
+\caption{Phase 04 model benchmark summary. Full PyTorch GraphSAGE values are summarized from \texttt{results/model/full\_pytorch\_graphsage\_summary.csv}; other benchmark values are generated by \texttt{scripts/19\_phase04\_modeling\_benchmarks\_ablation.py}.}
 \label{tab:gnn-performance}
-\begin{tabular}{lrrrrr}
+\begin{tabular}{lrr}
 \toprule
-Split & AUC & AP & F1 & Precision & Recall \\
+Model & Test AUC & Test AP \\
 \midrule
-Train & 0.6398 & 0.8198 & 0.8247 & 0.7017 & 1.0000 \\
-Validation & 0.5676 & 0.7794 & 0.8315 & 0.7115 & 1.0000 \\
-Test & 0.4428 & 0.7359 & 0.8506 & 0.7400 & 1.0000 \\
+Full PyTorch GraphSAGE & \(0.5842 \pm 0.0487\) & \(0.7809 \pm 0.0295\) \\
+Mean-neighbor GraphSAGE-style & \(0.5931 \pm 0.0513\) & \(0.7813 \pm 0.0422\) \\
+No-graph logistic & \(0.5827 \pm 0.0766\) & \(0.7582 \pm 0.0499\) \\
+Closeness centrality & \(0.5591 \pm 0.0641\) & \(0.7561 \pm 0.0406\) \\
+Gaussian naive Bayes & \(0.5448 \pm 0.0380\) & \(0.7409 \pm 0.0321\) \\
+No-graph MLP & \(0.5272 \pm 0.0967\) & \(0.7279 \pm 0.0578\) \\
+Betweenness centrality & \(0.5440 \pm 0.0312\) & \(0.7224 \pm 0.0220\) \\
 \bottomrule
 \end{tabular}
 \end{table}
+
+The ablation table in \texttt{results/metrics/ablation\_table.csv} indicates that the no-graph MLP reaches AP \(0.7391 \pm 0.0462\), removing metadata reduces AP to \(0.7283 \pm 0.0325\), and removing centrality or edge/contact features does not reduce performance in this lightweight model. This suggests that the current signal is driven partly by non-topological exposure metadata and that feature attribution remains unresolved until the full PyTorch model is reproduced.
 
 \subsection{Intervention Performance}
 

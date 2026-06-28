@@ -1,0 +1,4 @@
+dataset,nodes,edges,source,trace_tasks
+sashts,340,542,data\processed\sashts\edgelist.csv,162
+sociopatterns_primary_school,242,8317,data\processed\multi_dataset\sociopatterns_primary_school\edgelist.csv,180
+sociopatterns_hospital,75,1139,data\processed\multi_dataset\sociopatterns_hospital\edgelist.csv,180
