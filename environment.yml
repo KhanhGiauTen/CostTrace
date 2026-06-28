@@ -1,0 +1,17 @@
+name: costtrace
+channels:
+  - pytorch
+  - conda-forge
+dependencies:
+  - python=3.13
+  - numpy=2.3.5
+  - pandas=2.3.3
+  - matplotlib=3.10.9
+  - networkx=3.5
+  - scikit-learn=1.8.0
+  - seaborn=0.13.2
+  - pillow=12.0.0
+  - openpyxl=3.1.5
+  - ipykernel=7.1.0
+  - pytest=8.4.2
+  - pytorch=2.11.0

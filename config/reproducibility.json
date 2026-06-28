@@ -1,0 +1,68 @@
+{
+  "runtime": {
+    "python_version": "3.13.9",
+    "os_assumptions": [
+      "Windows 10/11, macOS, or Linux with a POSIX-like shell or PowerShell",
+      "UTF-8 capable terminal for report output"
+    ],
+    "hardware_assumptions": [
+      "CPU execution is sufficient for validation and paper artifact packaging",
+      "At least 8 GB RAM recommended for full pipeline reruns"
+    ],
+    "gpu_support": "Optional. PyTorch can use GPU if installed, but validation and packaging do not require CUDA."
+  },
+  "paths": {
+    "raw_contact_network": "data/raw/sashts/sashts_contact_network.csv",
+    "raw_metadata": "data/raw/sashts/sashts_metadata.csv",
+    "processed_graph": "data/processed/sashts/graph.pkl",
+    "processed_nodelist": "data/processed/sashts/nodelist.csv",
+    "processed_edgelist": "data/processed/sashts/edgelist.csv",
+    "processed_edges_clean": "data/processed/sashts/edges_clean.csv",
+    "results": "results",
+    "paper_ready": "results/paper_ready",
+    "supplement": "supplement"
+  },
+  "seeds": {
+    "default": 42,
+    "phase04": 42,
+    "phase05": 42
+  },
+  "budget_levels_pct": [1, 5, 10],
+  "budget_curve_levels_pct": [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20],
+  "strategies": ["random", "degree", "betweenness", "gnn"],
+  "model": {
+    "graphsage": {
+      "hidden_dim": 16,
+      "dropout_1": 0.2,
+      "dropout_2": 0.1,
+      "learning_rate": 0.01,
+      "weight_decay": 0.0001,
+      "runs": 15,
+      "note": "Documented from saved Phase 04 metadata; PR 5 does not train models."
+    }
+  },
+  "phase05": {
+    "smoke": {
+      "random_seed": 42,
+      "n_runs": 3,
+      "t_max": 10,
+      "beta_values": [0.20, 0.25, 0.30],
+      "gamma_values": [0.10],
+      "default_beta": 0.25,
+      "default_gamma": 0.10,
+      "budget_levels_pct": [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20],
+      "strategies": ["random", "degree", "betweenness", "gnn"]
+    },
+    "paper": {
+      "random_seed": 42,
+      "n_runs": 50,
+      "t_max": 30,
+      "beta_values": [0.15, 0.20, 0.25, 0.30, 0.35],
+      "gamma_values": [0.05, 0.10, 0.15],
+      "default_beta": 0.25,
+      "default_gamma": 0.10,
+      "budget_levels_pct": [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20],
+      "strategies": ["random", "degree", "betweenness", "gnn"]
+    }
+  }
+}
