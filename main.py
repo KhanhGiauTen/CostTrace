@@ -70,9 +70,24 @@ def main() -> None:
         default="all",
         help="Pipeline section to run.",
     )
+    parser.add_argument(
+        "--dry-run",
+        action="store_true",
+        help="Print the scripts that would run without executing them.",
+    )
     args = parser.parse_args()
 
-    for script in selected_scripts(args.phase):
+    scripts = selected_scripts(args.phase)
+    if args.dry_run:
+        for script in scripts:
+            script_path = ROOT / script
+            if not script_path.exists():
+                raise FileNotFoundError(f"Missing script: {script_path}")
+            print(script.as_posix(), flush=True)
+        print("\nCostTrace pipeline dry run completed.", flush=True)
+        return
+
+    for script in scripts:
         run_script(script)
 
     print("\nCostTrace pipeline completed.", flush=True)

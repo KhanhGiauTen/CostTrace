@@ -1,0 +1,14 @@
+item,description,path,status
+dataset_summary,Dataset and graph construction summary,data/processed/sashts/eda_summary.json,authoritative
+data_dictionary_mapping,Variable-level mapping from source data to processed fields,results/audit/phase03_data_dictionary_mapping.csv,authoritative
+feature_definitions,Feature definitions for network/model/intervention fields,supplement/feature_definitions.md,documentation
+hyperparameter_settings,Selected and searched model hyperparameters,results/audit/selected_hyperparameters.json,authoritative
+hyperparameter_search_summary,Phase 04 hyperparameter search summary,results/model/hyperparameter_search_summary.csv,authoritative
+benchmark_full_metrics,Full benchmark metrics across runs,results/metrics/benchmark_full_metrics.csv,authoritative
+ablation_full_metrics,Full ablation metrics across runs,results/metrics/ablation_full_metrics.csv,authoritative
+parameter_sweep_summary,Phase 05 parameter sweep summary,results/intervention/phase05_parameter_sweep.csv,smoke_artifact
+budget_analysis,Phase 05 budget decision table,results/intervention/phase05_budget_decision_table.csv,smoke_artifact
+paper_ready_figures,Paper-ready generated figures,results/paper_ready/figures,generated
+runtime_notes,Runtime and environment notes,supplement/runtime_notes.md,documentation
+limitations,Known limitations and reviewer caveats,supplement/limitations.md,documentation
+reproduction_instructions,Supplement-specific reproduction commands,supplement/reproduction_instructions.md,documentation

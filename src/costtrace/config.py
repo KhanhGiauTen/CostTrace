@@ -1,5 +1,6 @@
 from __future__ import annotations
 
+import json
 from dataclasses import dataclass
 from pathlib import Path
 
@@ -166,6 +167,14 @@ def require_existing(path: Path, label: str) -> Path:
 PATHS = ProjectPaths()
 
 
+def load_reproducibility_config() -> dict:
+    path = PATHS.root / "config" / "reproducibility.json"
+    if not path.exists():
+        return {}
+    with path.open(encoding="utf-8") as handle:
+        return json.load(handle)
+
+
 @dataclass(frozen=True)
 class Phase05Config:
     profile: str
@@ -192,6 +201,22 @@ class Phase05Config:
 
 
 def phase05_config(profile: str = "smoke") -> Phase05Config:
+    repro = load_reproducibility_config()
+    phase05 = repro.get("phase05", {})
+    if profile in phase05:
+        data = phase05[profile]
+        return Phase05Config(
+            profile=profile,
+            random_seed=int(data["random_seed"]),
+            n_runs=int(data["n_runs"]),
+            t_max=int(data["t_max"]),
+            beta_values=tuple(float(value) for value in data["beta_values"]),
+            gamma_values=tuple(float(value) for value in data["gamma_values"]),
+            default_beta=float(data["default_beta"]),
+            default_gamma=float(data["default_gamma"]),
+            budget_levels_pct=tuple(int(value) for value in data["budget_levels_pct"]),
+            strategies=tuple(str(value) for value in data["strategies"]),
+        )
     if profile == "smoke":
         return Phase05Config(
             profile="smoke",
